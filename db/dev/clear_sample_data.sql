@@ -1,0 +1,14 @@
+BEGIN;
+
+DELETE FROM comments;
+
+DELETE FROM tickets;
+
+DELETE FROM users
+WHERE
+    id IN (
+        '00000000-0000-0000-0000-0000000000a1',
+        '00000000-0000-0000-0000-0000000000a2'
+    );
+
+COMMIT;

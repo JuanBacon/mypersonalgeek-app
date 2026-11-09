@@ -3,7 +3,7 @@ BEGIN;
 CREATE TABLE
     tickets (
         id uuid PRIMARY KEY DEFAULT gen_random_uuid (),
-        -- RESTRICT: a profile that has tickets cannot be deleted, so ticket history is not lost silently.
+        -- RESTRICT: a user that has tickets cannot be deleted, so ticket history is not lost silently.
         created_by uuid NOT NULL REFERENCES users (id) ON DELETE RESTRICT,
         -- RESTRICT: categories are deactivated (is_active = false), never deleted while tickets use them.
         category_id uuid NOT NULL REFERENCES categories (id) ON DELETE RESTRICT,
