@@ -3,7 +3,7 @@ BEGIN;
 -- The id now comes from auth.users, not from a random default.
 ALTER TABLE users ALTER COLUMN id DROP DEFAULT;
 
--- CASCADE: deleting an account removes its profile. If the profile still has
+-- CASCADE: deleting an account removes its user. If the user still has
 -- tickets, the RESTRICT on tickets.created_by blocks it, which is what we want.
 ALTER TABLE users
   ADD CONSTRAINT users_id_fkey
