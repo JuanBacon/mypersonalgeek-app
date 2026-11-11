@@ -1,10 +1,11 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "../../../lib/supabase/server";
-import { createTicket, type FieldError } from "../../../lib/services/create-ticket";
-import { makeCategoriesRepo } from "../../../lib/repositories/categories";
-import { makeTicketsRepo } from "../../../lib/repositories/tickets";
+import { makeCategoriesRepo } from "@/lib/repositories/categories";
+import { makeTicketsRepo } from "@/lib/repositories/tickets";
+import { createTicket, type FieldError } from "@/lib/services/create-ticket";
+import { createClient } from "@/lib/supabase/server";
 
 export type TicketFormValues = {
     title: string;
@@ -41,6 +42,8 @@ export async function createTicketAction(
         priority: String(formData.get("priority") ?? ""),
     };
 
+    // Files in formData.getAll("attachments") are ignored until Lesson 7.
+
     const result = await createTicket(
         { ...values, priority: values.priority || undefined },
         user.id,
@@ -54,5 +57,7 @@ export async function createTicketAction(
         return { errors: result.errors, values };
     }
 
-    redirect("/tickets");
+    // The tickets layout holds the list, so tell Next.js to reload it.
+    revalidatePath("/tickets", "layout");
+    redirect(`/tickets/${result.ticketId}`);
 }

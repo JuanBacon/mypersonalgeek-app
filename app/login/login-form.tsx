@@ -1,57 +1,41 @@
 "use client";
 
 import { useActionState } from "react";
+import { Button } from "@/components/ui/button";
+import { Field, inputStyles } from "@/components/ui/field";
 import { login, type LoginState } from "./actions";
 
 export function LoginForm() {
-    const [state, formAction, pending] = useActionState<LoginState, FormData>(
-        login,
-        null,
-    );
+    const [state, formAction, pending] = useActionState<LoginState, FormData>(login, null);
 
     return (
-        <form action={formAction} className="flex w-full max-w-sm flex-col gap-4">
-            <div className="flex flex-col gap-1">
-                <label htmlFor="email" className="text-sm font-medium">
-                    Email
-                </label>
+        <form action={formAction} className="flex flex-col gap-4">
+            <Field id="email" label="Email">
                 <input
                     id="email"
                     name="email"
                     type="email"
                     autoComplete="username"
                     required
-                    className="rounded border border-gray-400 px-3 py-2"
+                    className={inputStyles}
                 />
-            </div>
+            </Field>
 
-            <div className="flex flex-col gap-1">
-                <label htmlFor="password" className="text-sm font-medium">
-                    Password
-                </label>
+            <Field id="password" label="Password" error={state?.error}>
                 <input
                     id="password"
                     name="password"
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="rounded border border-gray-400 px-3 py-2"
+                    aria-describedby="password-error"
+                    className={inputStyles}
                 />
-            </div>
+            </Field>
 
-            {state?.error && (
-                <p role="alert" className="text-sm text-red-600">
-                    {state.error}
-                </p>
-            )}
-
-            <button
-                type="submit"
-                disabled={pending}
-                className="rounded bg-black px-4 py-2 text-white disabled:opacity-50"
-            >
+            <Button type="submit" size="lg" tone="pink" fullWidth disabled={pending}>
                 {pending ? "Signing in..." : "Sign in"}
-            </button>
+            </Button>
         </form>
     );
 }
