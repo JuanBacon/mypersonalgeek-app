@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Offline · MyPersonalGeek</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 1rem;
+        background: #f9f6f0;
+        color: #000;
+        font-family: system-ui, sans-serif;
+      }
+      main {
+        max-width: 22rem;
+        text-align: center;
+        background: #fff;
+        border: 4px solid #000;
+        border-radius: 1rem;
+        box-shadow: 4px 4px 0 0 #000;
+        padding: 1.5rem;
+      }
+      h1 { font-family: Impact, "Arial Black", sans-serif; text-transform: uppercase; }
+      button {
+        min-height: 3rem;
+        padding: 0 1.25rem;
+        font: 700 1rem system-ui, sans-serif;
+        text-transform: uppercase;
+        background: #ff5c7a;
+        border: 4px solid #000;
+        border-radius: 0.75rem;
+        box-shadow: 4px 4px 0 0 #000;
+        cursor: pointer;
+      }
+      button:active { transform: translate(4px, 4px); box-shadow: none; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p aria-hidden="true" style="font-size: 3rem; margin: 0">📡</p>
+      <h1>No connection</h1>
+      <p>Your geek can't be reached right now. Check your Wi-Fi and try again.</p>
+      <button type="button" onclick="location.reload()">Try again</button>
+    </main>
+  </body>
+</html>

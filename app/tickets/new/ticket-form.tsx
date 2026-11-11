@@ -1,10 +1,13 @@
 "use client";
 
 import { useActionState } from "react";
+import { Button } from "@/components/ui/button";
+import { Field, inputStyles } from "@/components/ui/field";
+import { AttachmentPicker } from "@/components/tickets/attachment-picker";
+import { PriorityPicker } from "@/components/tickets/priority-picker";
+import { attachmentsEnabled } from "@/lib/features";
+import type { CategoryOption } from "@/lib/repositories/categories";
 import { createTicketAction, type CreateTicketState } from "./actions";
-import type { CategoryOption } from "../../../lib/repositories/categories";
-
-const inputClass = "rounded border border-gray-400 px-3 py-2";
 
 export function TicketForm({ categories }: { categories: CategoryOption[] }) {
     const [state, formAction, pending] = useActionState<CreateTicketState, FormData>(
@@ -16,31 +19,23 @@ export function TicketForm({ categories }: { categories: CategoryOption[] }) {
         state?.errors.find((error) => error.field === field)?.message;
 
     return (
-        <form action={formAction} className="flex w-full max-w-xl flex-col gap-4">
-            <div className="flex flex-col gap-1">
-                <label htmlFor="title" className="text-sm font-medium">
-                    Title
-                </label>
+        <form action={formAction} className="flex flex-col gap-5">
+            <Field id="title" label="Short title" error={errorFor("title")}>
                 <input
                     id="title"
                     name="title"
                     type="text"
                     required
                     maxLength={100}
+                    placeholder="Screen flickering"
                     defaultValue={state?.values.title}
                     aria-invalid={Boolean(errorFor("title"))}
                     aria-describedby="title-error"
-                    className={inputClass}
+                    className={inputStyles}
                 />
-                <p id="title-error" className="text-sm text-red-600">
-                    {errorFor("title")}
-                </p>
-            </div>
+            </Field>
 
-            <div className="flex flex-col gap-1">
-                <label htmlFor="categoryId" className="text-sm font-medium">
-                    Category
-                </label>
+            <Field id="categoryId" label="What kind of problem?" error={errorFor("categoryId")}>
                 <select
                     id="categoryId"
                     name="categoryId"
@@ -48,7 +43,7 @@ export function TicketForm({ categories }: { categories: CategoryOption[] }) {
                     defaultValue={state?.values.categoryId ?? ""}
                     aria-invalid={Boolean(errorFor("categoryId"))}
                     aria-describedby="categoryId-error"
-                    className={inputClass}
+                    className={inputStyles}
                 >
                     <option value="" disabled>
                         Choose a category
@@ -59,58 +54,40 @@ export function TicketForm({ categories }: { categories: CategoryOption[] }) {
                         </option>
                     ))}
                 </select>
-                <p id="categoryId-error" className="text-sm text-red-600">
-                    {errorFor("categoryId")}
-                </p>
-            </div>
+            </Field>
 
-            <div className="flex flex-col gap-1">
-                <label htmlFor="priority" className="text-sm font-medium">
-                    Priority
-                </label>
-                <select
-                    id="priority"
-                    name="priority"
-                    defaultValue={state?.values.priority || "normal"}
-                    className={inputClass}
-                >
-                    <option value="low">Low</option>
-                    <option value="normal">Normal</option>
-                    <option value="high">High</option>
-                </select>
-                <p className="text-sm text-red-600">{errorFor("priority")}</p>
-            </div>
-
-            <div className="flex flex-col gap-1">
-                <label htmlFor="description" className="text-sm font-medium">
-                    What is happening?
-                </label>
+            <Field
+                id="description"
+                label="What's going wrong?"
+                hint="Never write passwords or recovery codes here."
+                error={errorFor("description")}
+            >
                 <textarea
                     id="description"
                     name="description"
                     required
                     rows={6}
                     maxLength={5000}
+                    placeholder="My screen is flickering again..."
                     defaultValue={state?.values.description}
                     aria-invalid={Boolean(errorFor("description"))}
                     aria-describedby="description-hint description-error"
-                    className={inputClass}
+                    className={inputStyles}
                 />
-                <p id="description-hint" className="text-sm text-gray-600">
-                    Never write passwords or recovery codes here.
-                </p>
-                <p id="description-error" className="text-sm text-red-600">
-                    {errorFor("description")}
-                </p>
-            </div>
+            </Field>
 
-            <button
-                type="submit"
-                disabled={pending}
-                className="self-start rounded bg-black px-4 py-2 text-white disabled:opacity-50"
-            >
-                {pending ? "Sending..." : "Create ticket"}
-            </button>
+            {attachmentsEnabled && <AttachmentPicker />}
+
+            <PriorityPicker defaultValue={state?.values.priority || "normal"} />
+            {errorFor("priority") && (
+                <p role="alert" className="text-sm font-bold text-geek-red">
+                    {errorFor("priority")}
+                </p>
+            )}
+
+            <Button type="submit" size="lg" tone="pink" fullWidth disabled={pending}>
+                {pending ? "Sending..." : "Send to my geek!"}
+            </Button>
         </form>
     );
 }

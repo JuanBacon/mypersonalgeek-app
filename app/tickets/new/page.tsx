@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { createClient } from "../../../lib/supabase/server";
-import { makeCategoriesRepo } from "../../../lib/repositories/categories";
+import { Card } from "@/components/ui/card";
+import { makeCategoriesRepo } from "@/lib/repositories/categories";
+import { createClient } from "@/lib/supabase/server";
 import { TicketForm } from "./ticket-form";
 
 export default async function NewTicketPage() {
@@ -8,12 +9,17 @@ export default async function NewTicketPage() {
     const categories = await makeCategoriesRepo(supabase).listActive();
 
     return (
-        <main className="mx-auto flex max-w-xl flex-col gap-6 p-6">
-            <Link href="/tickets" className="text-sm underline">
-                Back to tickets
+        <div className="flex flex-col gap-5">
+            <Link href="/tickets" className="font-display uppercase underline lg:hidden">
+                ← All tickets
             </Link>
-            <h1 className="text-2xl font-semibold">New ticket</h1>
-            <TicketForm categories={categories} />
-        </main>
+
+            <Card className="flex flex-col gap-6 p-5 sm:p-6">
+                <h2 className="flex items-center gap-2 font-display text-3xl uppercase">
+                    <span aria-hidden>👓</span> New ticket
+                </h2>
+                <TicketForm categories={categories} />
+            </Card>
+        </div>
     );
 }

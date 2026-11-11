@@ -1,26 +1,38 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Design tokens. Tailwind turns each one into utilities:
+   --color-geek-yellow -> bg-geek-yellow, text-geek-yellow, border-geek-yellow...
+   --shadow-brutal     -> shadow-brutal
+   --font-display      -> font-display */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cream: #f9f6f0;
+  --color-ink: #000000;
+  --color-geek-yellow: #ffc933;
+  --color-geek-blue: #1d4ed8;
+  --color-geek-green: #3ddc6b;
+  --color-geek-red: #dc1f2e;
+  --color-geek-pink: #ff5c7a;
+
+  --shadow-brutal-sm: 2px 2px 0 0 #000;
+  --shadow-brutal: 4px 4px 0 0 #000;
+  --shadow-brutal-lg: 6px 6px 0 0 #000;
+
+  --font-display: var(--font-archivo), Impact, "Arial Black", sans-serif;
+  --font-sans: var(--font-space), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  color-scheme: light;
+}
+
+::selection {
+  background: var(--color-geek-yellow);
+  color: #000;
+}
+
+/* Respect people who turn animations off in their OS settings. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

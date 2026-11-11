@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#FFC933"/>
+  <!-- hard shadows -->
+  <rect x="88" y="202" width="150" height="120" rx="26" fill="#000"/>
+  <rect x="298" y="202" width="150" height="120" rx="26" fill="#000"/>
+  <rect x="238" y="247" width="60" height="22" fill="#000"/>
+  <!-- lenses -->
+  <rect x="76" y="190" width="150" height="120" rx="26" fill="#FFFFFF" stroke="#000" stroke-width="22"/>
+  <rect x="286" y="190" width="150" height="120" rx="26" fill="#FFFFFF" stroke="#000" stroke-width="22"/>
+  <!-- bridge and pupils -->
+  <rect x="226" y="235" width="60" height="22" fill="#000"/>
+  <circle cx="151" cy="250" r="20" fill="#000"/>
+  <circle cx="361" cy="250" r="20" fill="#000"/>
+</svg>
